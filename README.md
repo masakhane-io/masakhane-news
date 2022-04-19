@@ -4,7 +4,7 @@ This repository contains the code for [training movie review sentiment classific
 
 The code is based on HuggingFace implementation (License: Apache 2.0).
 
-The license of data is in [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+The license of the data is in [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ### Required dependencies
 * python
