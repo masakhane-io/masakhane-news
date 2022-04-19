@@ -20,7 +20,7 @@ If you make use of this dataset, please cite us:
 
 ### BibTeX entry and citation info
 ```
-@article{10.1162/tacl_a_00416,
+@article{shode_africanlp,
     author = {Shode, Iyanuoluwa and Adelani, David Ifeoluwa and Feldman, Anna},
     title = "{YOSM: A new Yorùbá Sentiment Corpus for Movie Reviews}",
     journal = {AfricaNLP 2022 @ICLR},
