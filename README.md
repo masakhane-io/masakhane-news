@@ -1,6 +1,6 @@
 ## [YOSM: A new Yorùbá Sentiment Corpus for Movie Reviews](https://openreview.net/forum?id=rRzx5qzVIb9)
 
-This repository contains the code for [training movie review sentiment classification](https://github.com/IyanuSh/YOSM/tree/main/train_textclass.py) and the [YOSM data](https://github.com/IyanuSh/YOSM/tree/main/) for Yorùbá language. 
+This repository contains the code for [training movie review sentiment classification](https://github.com/IyanuSh/YOSM/tree/main/train_textclass.py) and the [YOSM data](https://github.com/IyanuSh/YOSM/tree/main/data/yosm) for Yorùbá language. 
 
 The code is based on HuggingFace implementation (License: Apache 2.0).
 
