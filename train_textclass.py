@@ -637,8 +637,8 @@ def main():
         output_test_predictions_file = os.path.join(args.output_dir, args.output_prediction_file+".txt")
         with open(output_test_predictions_file, "w", encoding='utf-8') as writer:
             with open(os.path.join(args.data_dir, "test.tsv"), "r", encoding='utf-8') as f:
-                line_data = f.read()
-            line_data =  line_data.splitlines()
+                line_data = f.readlines()
+            # line_data =  line_data.splitlines()
             for l, line in enumerate(line_data):
                 if l == 0:
                     continue
