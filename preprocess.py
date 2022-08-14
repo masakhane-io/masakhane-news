@@ -46,12 +46,12 @@ def preprocess_imdb():
 
 def preprocess_yosm():
     df_1 = pd.read_csv('data/yosm/dataset.csv', nrows=1475)
-    df_1 = df_1.replace('\n', ' ', regex=True)
+    df_1 = df_1.replace(r'\r+|\n+|\t+', '. ', regex=True)
     print(df_1.tail())
     df_1 = df_1.sample(frac=1, random_state=2022)
 
     df_new = pd.read_csv('data/yosm/dataset.csv', nrows=1500)
-    df_new = df_new.replace('\n', ' ', regex=True)
+    df_new = df_new.replace(r'\r+|\n+|\t+', '. ', regex=True)
     df_new = df_new.iloc[1475:]
 
     df = pd.concat([df_1, df_new], axis=0)
@@ -67,6 +67,13 @@ def preprocess_yosm():
     df_test = pd.concat([df_pos.iloc[:250], df_neg.iloc[:250]], axis=0) #500
     df_train = pd.concat([df_pos.iloc[250:650], df_neg.iloc[250:650]], axis=0) #800
     df_dev = pd.concat([df_pos.iloc[650:], df_neg.iloc[650:]], axis=0)  # remaining
+
+    en_dir = 'data/yosm/en/'
+    create_dir(en_dir)
+    df_test[['en_review', 'sentiment']].to_csv(en_dir + 'test.tsv', sep='\t', index=None)
+    df_train[['en_review', 'sentiment']].to_csv(en_dir + 'train.tsv', sep='\t', index=None)
+    df_dev[['en_review', 'sentiment']].to_csv(en_dir + 'dev.tsv', sep='\t', index=None)
+
 
     yo_yo_dir = 'data/yosm/yosm/'
     create_dir(yo_yo_dir)
