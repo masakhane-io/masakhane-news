@@ -1,4 +1,4 @@
-## [YOSM: A new Yorùbá Sentiment Corpus for Movie Reviews](https://openreview.net/forum?id=rRzx5qzVIb9)
+## [YOSM: A new Yorùbá Sentiment Corpus for Nigerian/Nollywood Movie Reviews](https://openreview.net/forum?id=rRzx5qzVIb9)
 
 This repository contains the code for [training movie review sentiment classification](https://github.com/IyanuSh/YOSM/tree/main/train_textclass.py) and the [YOSM data](https://github.com/IyanuSh/YOSM/tree/main/data/yosm) for Yorùbá language. To run the code, see any of the bash scripts (*.sh)
 
