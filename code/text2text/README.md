@@ -10,7 +10,7 @@
 
 
 
-'''
+`
 @inproceedings{jude-ogundepo-etal-2022-afriteva,
     title = "{A}fri{T}e{VA}: Extending ?Small Data? Pretraining Approaches to Sequence-to-Sequence Models",
     author = "Jude Ogundepo, Odunayo  and
@@ -28,5 +28,5 @@
     pages = "126--135",
     abstract = "t",
 }
-'''
+`
 
