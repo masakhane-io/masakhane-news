@@ -5,7 +5,7 @@ export TOKENIZERS_PARALLELISM=true
 for j in  'amh' #'eng' 'fra' 'hau' 'ibo' 'lin' 'pcm' 'run' 'swa' 'yor' 
 do
  
-    for i in "castorini/afriteva_small" #"castorini/afriteva_base" "castorini/afriteva_large" #"masakhane/afri-mt5-base" #"masakhane/afri-byt5-base"
+    for i in "masakhane/afri-byt5-base" #"castorini/afriteva_small" #"castorini/afriteva_base" "castorini/afriteva_large" #"masakhane/afri-mt5-base" #"masakhane/afri-byt5-base"
     do
 
         train_data_path="../../data/${j}/train.tsv"
@@ -21,7 +21,7 @@ do
         learning_rate="3e-4"
         train_batch_size="4"
         eval_batch_size="4"
-        num_train_epochs="20"
+        num_train_epochs="5"
         gradient_accumulation_steps="4"
         class_dir=../../data/${j}
         data_column="headline"
