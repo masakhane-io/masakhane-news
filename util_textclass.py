@@ -1,7 +1,7 @@
 import os
 import torch
 import logging
-
+import pandas as pd
 import numpy as np
 from torch.utils.data import TensorDataset
 
@@ -23,20 +23,35 @@ class InputFeatures(object):
         self.token_type_ids = token_type_ids
         self.label = label
 
-def read_instances_from_file(data_dir, mode, delimiter="\t"):
+def read_instances_from_file(args,data_dir, mode, delimiter="\t"):
     file_path = os.path.join(data_dir, "{}.tsv".format(mode))
     instances = []
 
-    with open(file_path, "r", encoding='utf-8') as input_file:
-        line_data = input_file.read()
+    #with open(file_path, "r", encoding='utf-8') as input_file:
+    #    line_data = input_file.read()
+    
+    line_data  = pd.read_csv(file_path,sep='\t')
 
-    line_data = line_data.splitlines()
-    for l, line in enumerate(line_data):
-        if l==0:
+    #line_data = line_data.splitlines()
+
+    texts = line_data['text'].values
+    labels = line_data['category'].values
+    headlines  = line_data['headline'].values
+
+    for text_,headline_,label_ in zip(texts,headlines,labels):
+
+    #for l, line in enumerate(line_data):
+        if headline_=='':
             continue
         else:
-            text_vals = line.strip().split(delimiter)
-            text, label = ' '.join(text_vals[:-1]), text_vals[-1]
+            #text_vals = l.strip().split(delimiter)
+            if args.headline_use == 'only_headline':
+                text  = headline_
+            elif args.headline_use == 'with_text':
+                text = headline_+ ' '+ text_
+            else:
+                raise Exception(f'the argument `headline_use` must be one of `only_headline` or `with_text` ')
+            label = label_
             instances.append(Instance(text, label))
 
     return instances

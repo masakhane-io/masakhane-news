@@ -329,7 +329,7 @@ def load_and_cache_examples(args, tokenizer, labels, mode='train'):
         features = torch.load(cached_features_file)
     else:
         logger.info("Creating features from dataset file at %s", args.data_dir)
-        instances = read_instances_from_file(args.data_dir, mode)
+        instances = read_instances_from_file(args,args.data_dir, mode)
         features = convert_instances_to_features_and_labels(instances, tokenizer, labels, args.max_seq_length)
         if args.local_rank in [-1, 0]:
             logger.info("Saving features into cached file %s", cached_features_file)
@@ -479,7 +479,15 @@ def main():
     parser.add_argument("--local_rank", type=int, default=-1, help="For distributed training: local_rank")
     parser.add_argument("--server_ip", type=str, default="", help="For distant debugging.")
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
+    
+    
+    # Added by Chris Emezue on 24.01.2023
+    parser.add_argument("--headline_use", type=str, default="only_headline", help="For distant debugging.")
+    
+    
     args = parser.parse_args()
+
+
 
     if (
         os.path.exists(args.output_dir)
@@ -644,7 +652,16 @@ def main():
                     continue
                 else:
                     text_vals = line.strip().split("\t")
-                    text, label = text_vals
+                    if len(text_vals)!=4:
+                        continue
+                    #text, label = text_vals
+                    label,headline,text_,_  = text_vals
+                    if args.headline_use == 'only_headline':
+                        text  = headline
+                    elif args.headline_use == 'with_text':
+                        text = headline+ ' '+ text_
+                    else:
+                        raise Exception(f'the argument `headline_use` must be one of `only_headline` or `with_text` ')
                     output_line = text + "\t" + id2label[str(predictions[l-1])] + "\n"
                     writer.write(output_line)
 

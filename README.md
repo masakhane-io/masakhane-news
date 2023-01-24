@@ -1,33 +1,12 @@
-## [YOSM: A new Yorùbá Sentiment Corpus for Nigerian/Nollywood Movie Reviews](https://openreview.net/forum?id=rRzx5qzVIb9)
+## Adapting [YOSM](https://openreview.net/forum?id=rRzx5qzVIb9) for MasakhaNEWS training
 
-This repository contains the code for [training movie review sentiment classification](https://github.com/IyanuSh/YOSM/tree/main/train_textclass.py) and the [YOSM data](https://github.com/IyanuSh/YOSM/tree/main/data/yosm) for Yorùbá language. To run the code, see any of the bash scripts (*.sh)
-
-The code is based on HuggingFace implementation (License: Apache 2.0).
-
-The license of the data is in [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
-
-### Required dependencies
-* python
-  * [transformers](https://pypi.org/project/transformers/) : state-of-the-art Natural Language Processing for TensorFlow 2.0 and PyTorch.
-  * [sklearn](https://scikit-learn.org/stable/install.html) : for F1-score evaluation
-  * [ptvsd](https://pypi.org/project/ptvsd/) : remote debugging server for Python support in Visual Studio and Visual Studio Code.
-
-```bash
-pip install transformers scikit-learn ptvsd
-```
-
-If you make use of this dataset, please cite us:
-
-### BibTeX entry and citation info
-```
-@article{shode_africanlp,
-    author = {Shode, Iyanuoluwa and Adelani, David Ifeoluwa and Feldman, Anna},
-    title = "{YOSM: A new Yorùbá Sentiment Corpus for Movie Reviews}",
-    journal = {AfricaNLP 2022 @ICLR},
-    year = {2022},
-    month = {4},
-    url = {https://openreview.net/forum?id=rRzx5qzVIb9},
-}
-```
+The YOSM repository contains the code for [training movie review sentiment classification](https://github.com/IyanuSh/YOSM/tree/main/train_textclass.py) and the [YOSM data](https://github.com/IyanuSh/YOSM/tree/main/data/yosm) for Yorùbá language. To run the code, see any of the bash scripts (*.sh)
 
 
+
+### for `bert-base-multilingual-cased`
+1. Tweak `run.sh `.
+2. then run `bash mbert.sh`
+
+Changes I made:
+1. added a `args.headline_use` which determines whether to take just the headline or the headline + text as the text.
