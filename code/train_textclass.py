@@ -24,6 +24,7 @@ import os
 import random
 
 import numpy as np
+import pandas as pd
 import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, TensorDataset
 from torch.utils.data.distributed import DistributedSampler
@@ -302,7 +303,8 @@ def evaluate(args, model, tokenizer, labels, mode, prefix="", display_res=False)
         "loss": eval_loss,
         "precision": eval_report["weighted avg"]["precision"],
         "recall": eval_report["weighted avg"]["recall"],
-        "acc": sklearn.metrics.accuracy_score(out_label_ids, preds),   # "f1": eval_report["weighted avg"]["f1-score"],
+        "f1": eval_report["weighted avg"]["f1-score"],
+        "acc": sklearn.metrics.accuracy_score(out_label_ids, preds),
     }
 
     if not display_res:
@@ -636,6 +638,14 @@ def main():
 
         output_test_predictions_file = os.path.join(args.output_dir, args.output_prediction_file+".txt")
         with open(output_test_predictions_file, "w", encoding='utf-8') as writer:
+            df = pd.read_csv(os.path.join(args.data_dir, "test.tsv"), sep='\t')
+            N = df.shape[0]
+
+            texts = list(df['headline'].values)
+            for i in range(N):
+                output_line = texts[i] + "\t" + id2label[str(predictions[i])] + "\n"
+                writer.write(output_line)
+            '''
             with open(os.path.join(args.data_dir, "test.tsv"), "r", encoding='utf-8') as f:
                 line_data = f.read()
             line_data =  line_data.splitlines()
@@ -648,6 +658,7 @@ def main():
                     text, label = text_vals
                     output_line = text + "\t" + id2label[str(predictions[l-1])] + "\n"
                     writer.write(output_line)
+            '''
 
     return results
 
