@@ -244,7 +244,8 @@ def main():
         f.write(f"recall = {recall}\n")
     
     f.close()
-        
+
+    '''     
     for i in range(32):
         c = texts[i]
         lines = textwrap.wrap("text:\n%s\n" % c, width=100)
@@ -252,8 +253,7 @@ def main():
         print("\nActual sentiment: %s" % targets[i])
         print("predicted sentiment: %s" % dec[i])
         print("=====================================================================\n")
-
-    '''   
+   
     print('Testing and predicting for the challenge----------------------------')
     test_loader = DataLoader(test_dataset, batch_size=64, num_workers=1, shuffle=False)
     outputs = []

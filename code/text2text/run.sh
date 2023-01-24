@@ -22,7 +22,7 @@ do
         train_batch_size="4"
         eval_batch_size="4"
         num_train_epochs="20"
-        gradient_accumulation_steps="16"
+        gradient_accumulation_steps="4"
         class_dir=../../data/${j}
         data_column="headline"
         target_column="category"
