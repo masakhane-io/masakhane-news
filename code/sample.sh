@@ -1,7 +1,7 @@
 export MAX_LENGTH=164
 export OUTPUT_FILE=test_result
 export OUTPUT_PREDICTION=test_predictions
-export BATCH_SIZE=64
+export BATCH_SIZE=16
 export NUM_EPOCHS=10
 export SAVE_STEPS=500000
 export SEED=1
@@ -25,7 +25,7 @@ CUDA_VISIBLE_DEVICES=3 python3 train_textclass.py --data_dir $DATA_DIR \
 --per_gpu_eval_batch_size $BATCH_SIZE \
 --save_steps $SAVE_STEPS \
 --seed $SEED \
---labels ../data/${LANG}/labels.txt
+--labels ../data/${LANG}/labels.txt \
 --gradient_accumulation_steps 2 \
 --do_train \
 --do_eval \

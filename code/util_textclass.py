@@ -1,6 +1,7 @@
 import os
 import torch
 import logging
+import pandas as pd
 
 import numpy as np
 from torch.utils.data import TensorDataset
@@ -27,6 +28,12 @@ def read_instances_from_file(data_dir, mode, delimiter="\t"):
     file_path = os.path.join(data_dir, "{}.tsv".format(mode))
     instances = []
 
+    df = pd.read_csv(file_path, sep='\t')
+    N = df.shape[0]
+
+    for i in range(N):
+        instances.append(Instance(df['headline'].iloc[i], df['category'].iloc[i]))
+    '''
     with open(file_path, "r", encoding='utf-8') as input_file:
         line_data = input_file.read()
 
@@ -38,6 +45,7 @@ def read_instances_from_file(data_dir, mode, delimiter="\t"):
             text_vals = line.strip().split(delimiter)
             text, label = ' '.join(text_vals[:-1]), text_vals[-1]
             instances.append(Instance(text, label))
+    '''
 
     return instances
 
