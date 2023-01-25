@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=masakhanews-xlmr-base
+#SBATCH --job-name=masakhanews-experiments
 #SBATCH --gres=gpu:a100l:2
 #SBATCH --cpus-per-gpu=12
-#SBATCH --mem=48G
+#SBATCH --mem=96G
 #SBATCH --time=168:00:00
 #SBATCH --partition=long
 #SBATCH --error=/home/mila/b/bonaventure.dossou/masakhane-news/comErrorXLMRBase.txt
