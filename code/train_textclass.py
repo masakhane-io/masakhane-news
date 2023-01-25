@@ -641,18 +641,18 @@ def main():
 
         output_test_predictions_file = os.path.join(args.output_dir, args.output_prediction_file+".txt")
         with open(output_test_predictions_file, "w", encoding='utf-8') as writer:
-            with open(os.path.join(args.data_dir, "test.tsv"), "r", encoding='utf-8') as f:
-                line_data = f.read()
-            line_data =  line_data.splitlines()
-            for l, line in enumerate(line_data):
-                if l == 0:
-                    continue
-                else:
-                    text_vals = line.strip().split("\t")
-                    if len(text_vals) < 2: text_vals += [7]
-                    text, label = text_vals
-                    output_line = text + "\t" + id2label[str(predictions[l-1])] + "\n"
-                    writer.write(output_line)
+            test_path = os.path.join(args.data_dir, "test.tsv")
+            test_set = pd.read_csv(test_path, delimiter = "\t")
+            
+            texts = test_set['text'].values
+            labels = test_set['category'].values
+            headlines  = test_set['headline'].values
+
+            for idx, (text_, headline_, label_) in enumerate(zip(texts, headlines, labels)):
+                if int(args.header) == 1:
+                    text_ = headline_.strip() + ". " + text_.strip()
+                output_line = text + "\t" + id2label[str(predictions[idx])] + "\n"
+                writer.write(output_line)
 
     return results
 
