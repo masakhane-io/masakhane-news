@@ -481,6 +481,7 @@ def main():
     parser.add_argument("--server_ip", type=str, default="", help="For distant debugging.")
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
     parser.add_argument("--header", type=int, default=0, help="with header")
+    parser.add_argument('--save_total_limit', type=int, default=1, help="Number of checkpoints to save")
     
     args = parser.parse_args()
 
@@ -549,6 +550,7 @@ def main():
         id2label={str(i): label for i, label in enumerate(labels)},
         label2id={label: i for i, label in enumerate(labels)},
         cache_dir=args.cache_dir if args.cache_dir else None,
+        save_total_limit=int(args.save_total_limit),
     )
     tokenizer = tokenizer_class.from_pretrained(
         args.tokenizer_name if args.tokenizer_name else args.model_name_or_path,
