@@ -1,0 +1,12 @@
+pytorch_lightning
+scikit-learn
+evaluate
+pandas
+numpy
+transformers
+scipy
+protobuf
+scikit-learn
+accelerate
+sentencepiece!=0.1.92
+datasets>=1.8.0
