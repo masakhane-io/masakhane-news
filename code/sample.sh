@@ -21,21 +21,21 @@ export SAVE_STEPS=1500
 for model in xlm-roberta-base xlm-roberta-large google/rembert microsoft/deberta-v3-base
 do
 	export BERT_MODEL=${model}
-	export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${LANG}_${model}
 	for lang in amh eng fra hau ibo lin pcm run swa yor
 	do
-		export DATA_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/data/${LANG}
+		export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${lang}_${model}
+		export DATA_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/data/${lang}
 		export LABELS_FILE=${DATA_DIR}/labels.txt
 		export LANG=${lang}
-		export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${LANG}_${model}
+		export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${lang}_${model}
 		for seed in 1 2 3 4 5
 		do
 			for header_style in 0 1
 			do
 				export HEADER_STYLE=${header_style}
 				export SEED=${seed}
-				export OUTPUT_FILE=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_result_${LANG}_${seed}
-				export OUTPUT_PREDICTION=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_predictions_${LANG}_${seed}
+				export OUTPUT_FILE=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_result_${lang}_${seed}_${header_style}
+				export OUTPUT_PREDICTION=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_predictions_${lang}_${seed}_${header_style}
 
 				CUDA_VISIBLE_DEVICES=2 python train_textclass.py --data_dir $DATA_DIR \
 				--model_type xlmroberta \
