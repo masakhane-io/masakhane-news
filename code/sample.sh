@@ -32,7 +32,7 @@ do
 		do
 			for header_style in 0 1
 			do
-
+				export HEADER_STYLE=${header_style}
 				export SEED=${seed}
 				export OUTPUT_FILE=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_result_${LANG}_${seed}
 				export OUTPUT_PREDICTION=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_predictions_${LANG}_${seed}
@@ -57,7 +57,7 @@ do
 				--do_eval \
 				--do_predict \
 				--overwrite_output_dir \
-				--header header_style
+				--header $HEADER_STYLE
 			done
 		done
 	done
