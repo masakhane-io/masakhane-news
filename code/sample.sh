@@ -34,8 +34,8 @@ do
 			do
 				export HEADER_STYLE=${header_style}
 				export SEED=${seed}
-				export OUTPUT_FILE=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_result_${lang}_${seed}_${header_style}
-				export OUTPUT_PREDICTION=/home/mila/b/bonaventure.dossou/masakhane-news/results/test_predictions_${lang}_${seed}_${header_style}
+				export OUTPUT_FILE=${OUTPUT_DIR}/test_result_${lang}_${seed}_${header_style}
+				export OUTPUT_PREDICTION=${OUTPUT_DIR}/test_predictions_${lang}_${seed}_${header_style}
 
 				CUDA_VISIBLE_DEVICES=2 python train_textclass.py --data_dir $DATA_DIR \
 				--model_type xlmroberta \
