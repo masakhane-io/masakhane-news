@@ -302,7 +302,8 @@ def evaluate(args, model, tokenizer, labels, mode, prefix="", display_res=False)
         "loss": eval_loss,
         "precision": eval_report["weighted avg"]["precision"],
         "recall": eval_report["weighted avg"]["recall"],
-        "acc": sklearn.metrics.accuracy_score(out_label_ids, preds),   # "f1": eval_report["weighted avg"]["f1-score"],
+        "acc": sklearn.metrics.accuracy_score(out_label_ids, preds),
+        "f1": eval_report["weighted avg"]["f1-score"]
     }
 
     if not display_res:
