@@ -651,7 +651,7 @@ def main():
             for idx, (text_, headline_, label_) in enumerate(zip(texts, headlines, labels)):
                 if int(args.header) == 1:
                     text_ = headline_.strip() + ". " + text_.strip()
-                output_line = text + "\t" + id2label[str(predictions[idx])] + "\n"
+                output_line = text_ + "\t" + id2label[str(predictions[idx])] + "\n"
                 writer.write(output_line)
 
     return results
