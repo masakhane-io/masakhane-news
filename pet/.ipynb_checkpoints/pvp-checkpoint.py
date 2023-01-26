@@ -651,19 +651,20 @@ class MasakhaneNewsPVP(PVP):
 
     # Set this to the verbalizer for the given task: a mapping from the task's labels (which can be obtained using
     # the corresponding DataProcessor's get_labels method) to tokens from the language model's vocabulary
+    #VERBALIZER = {
+    #    "sports": ["Sports"],
+    #    "politics": ["Politic"],
+    #    "business": ["Business"],
+    #    "health": ["Health"],
+    #    "entertainment": ["Entertainment"],
+    #    "technology": ["Technology"]
+   # }
     VERBALIZER = {
         "sports": ["Sports"],
         "politics": ["Politic"],
         "business": ["Business"],
-        "health": ["Health"],
-        "entertainment": ["Entertainment"],
-        "technology": ["Technology"]
+        "health": ["Health"]
     }
-   # VERBALIZER = {
-       # "sports": ["Sports"],
-       # "politics": ["Politic"],
-       # "business": ["Business"],
-      #  "health": ["Health"]
 
     def get_parts(self, example: InputExample):
         """

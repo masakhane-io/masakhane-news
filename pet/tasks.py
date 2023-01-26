@@ -874,7 +874,9 @@ class MasakhaneNewsProcessor(DataProcessor):
 
     # Set this to a list of all labels in the train + test data
     #LABELS = ["1", "2", "3", "4","5", "6"]
-    LABELS = ["sports", "politics", "business", "health","entertainment", "technology"]
+    #LABELS = ["sports", "politics", "business", "health","entertainment", "technology"]
+    LABELS = ["sports", "politics", "business", "health"]
+
 
 
     # Set this to the column of the train/test csv files containing the input's text a
