@@ -19,9 +19,9 @@ To train and evaluate a PET model for [Masakhane-News](https://github.com/masakh
 	--do_eval
     
  where
- - `$PATTERN_IDS` specifies the PVPs to use. For example, if you want to use *all* patterns, specify `PATTERN_IDS 0 1 2 3 4` for AG's News and Yahoo Questions or `PATTERN_IDS 0 1 2 3` for Yelp Reviews and MNLI.
+ - `$PATTERN_IDS` specifies the PVPs to use. For example, if you want to use *all* patterns, specify `PATTERN_IDS 0 1 2 3 4` 
  - `$DATA_DIR` is the directory containing the train and test files (check `tasks.py` to see how these files should be named and formatted for each task).
- - `$MODEL_TYPE` is the name of the model being used, e.g. `albert`, `bert` or `roberta`.
+ - `$MODEL_TYPE` is the name of the model being used, e.g. `xlm-roberta`, `bert` or `roberta`.
  - `$MODEL_NAME` is the name of a pretrained model (e.g., `roberta-large` or `albert-xxlarge-v2`) or the path to a pretrained model.
  - `$OUTPUT_DIR` is the name of the directory in which the trained model and evaluation results are saved.
  
@@ -33,11 +33,11 @@ Example (using roberta-base and use 5 sample per class)
     python3 cli.py \
     --method pet \ 
     --pattern_ids 0 1 2 3 4 \
-    --data_dir '..../pet/data-fsl/eng/5sample/' \
+    --data_dir '..../PET/data-fsl/eng/5sample/' \
     --model_type roberta \
     --model_name_or_path 'roberta-base' \
     --task_name 'topic-classification' \
-    --output_dir '...../pet/results/eng/model-pet-5-roberta-base/' \
+    --output_dir '...../PET/results/eng/model-pet-5-roberta-base/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
@@ -47,11 +47,11 @@ Example (using Davlan/afro-xlmr-large and use 10 sample per class)
     python3 cli.py \
     --method pet \
     --pattern_ids 0 1 2 3 4 \
-    --data_dir '/home/sanala/Juputer try/pet/data-fsl/eng/10sample/' \
+    --data_dir '..../PET/data-fsl/eng/10sample/' \
     --model_type xlm-roberta \
     --model_name_or_path 'Davlan/afro-xlmr-large' \
     --task_name 'topic-classification' \
-    --output_dir '/home/sanala/Juputer try/pet/results/eng/model-pet-10-Davlan-afro-xlmr-large/' \
+    --output_dir '.../PET/results/eng/model-pet-10-Davlan-afro-xlmr-large/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
@@ -74,15 +74,15 @@ For each pattern `$P` and repetition `$I`, running the above command creates a d
   
 The final (distilled) model for each repetition `$I` can be found in `$OUTPUT_DIR/final/p0-i$I`, which contains the same files as described above.
 
-## change verbalizer (acording to the classess foe each language) in pet/pvp.py in class MasakhaneNewsPVP(PVP) 
-since we have differen labels category for different languages, we need to change the verbalizer acording to the classes 
+## change verbalizer (acording to the classess for each language)
+since we have differen labels category for different languages, we need to change the verbalizer acording to the classes in pet/pvp.py in class MasakhaneNewsPVP(PVP) 
 
 Example 
 #### for eng
 
     VERBALIZER = {
         "sports": ["Sports"],
-        "politics": ["Politics"],
+        "politics": ["Politic"],
         "business": ["Business"],
         "health": ["Health"],
         "entertainment": ["Entertainment"],
@@ -91,7 +91,7 @@ Example
 #### for amh
     VERBALIZER = {
         "sports": ["Sports"],
-        "politics": ["Politics"],
+        "politics": ["Politic"],
         "business": ["Business"],
         "health": ["Health"]
 
@@ -103,11 +103,11 @@ Example
      python3 cli.py \
     --method ipet \ 
     --pattern_ids 0 1 2 3 4 \
-    --data_dir '..../pet/data-fsl/eng/5sample/' \
-    --model_type roberta \
-    --model_name_or_path 'roberta-base' \
+    --data_dir '..../PET/data-fsl/eng/5sample/' \
+    --model_type xlm-roberta \
+    --model_name_or_path 'Davlan/afro-xlmr-large' \
     --task_name 'topic-classification' \
-    --output_dir '...../pet/results/eng/model-ipet-5-roberta-base/' \
+    --output_dir '...../PET/results/eng/model-ipet-5-roberta-base/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
