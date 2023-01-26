@@ -37,7 +37,7 @@ Example (using roberta-base and use 5 sample per class)
     --model_type roberta \
     --model_name_or_path 'roberta-base' \
     --task_name 'topic-classification' \
-    --output_dir '...../PET/results/eng/model-pet-5-roberta-base/' \
+    --output_dir '...../pet-masakhane-news/results/eng/model-pet-5-roberta-base/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
@@ -51,7 +51,7 @@ Example (using Davlan/afro-xlmr-large and use 10 sample per class)
     --model_type xlm-roberta \
     --model_name_or_path 'Davlan/afro-xlmr-large' \
     --task_name 'topic-classification' \
-    --output_dir '.../PET/results/eng/model-pet-10-Davlan-afro-xlmr-large/' \
+    --output_dir '.../pet-masakhane-news/results/eng/model-pet-10-Davlan-afro-xlmr-large/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
@@ -107,7 +107,7 @@ Example
     --model_type xlm-roberta \
     --model_name_or_path 'Davlan/afro-xlmr-large' \
     --task_name 'topic-classification' \
-    --output_dir '...../PET/results/eng/model-ipet-5-roberta-base/' \
+    --output_dir '...../pet-masakhane-news/results/eng/model-ipet-5-roberta-base/' \
     --do_train \
     --do_eval \
     --sc_repetitions 1
