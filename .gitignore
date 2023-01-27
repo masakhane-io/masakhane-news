@@ -1,3 +1,7 @@
 results/*
 __pycache__/*
+pet/__pycache__/*
 
+.ipynb_checkpoints/*
+
+slurm/*
