@@ -25,6 +25,7 @@ from transformers import PreTrainedTokenizer, GPT2Tokenizer
 from pet.task_helpers import MultiMaskTaskHelper
 from pet.tasks import TASK_HELPERS
 from pet.utils import InputExample, get_verbalization_ids
+from pet.verbalizer import *
 
 import log
 from pet import wrapper as wrp
@@ -54,7 +55,8 @@ class PVP(ABC):
         self.rng = random.Random(seed)
 
         if verbalizer_file:
-            self.verbalize = PVP._load_verbalizer_from_file(verbalizer_file, self.pattern_id)
+            #self.verbalize = PVP._load_verbalizer_from_file(verbalizer_file, self.pattern_id)
+            self.VERBALIZER = PVP._load_verbalizer_from_lang(verbalizer_file)
 
         use_multimask = (self.wrapper.config.task_name in TASK_HELPERS) and (
             issubclass(TASK_HELPERS[self.wrapper.config.task_name], MultiMaskTaskHelper)
@@ -234,6 +236,11 @@ class PVP(ABC):
         logits = torch.squeeze(logits, 1)  # remove second dimension as we always have exactly one <mask> per example
         cls_logits = torch.stack([self._convert_single_mlm_logits_to_cls_logits(lgt) for lgt in logits])
         return cls_logits
+    
+    @staticmethod
+    def _load_verbalizer_from_lang(lang: str):
+        return VERBALIZER_MAPPING[lang]
+
 
     @staticmethod
     def _load_verbalizer_from_file(path: str, pattern_id: int):
@@ -645,26 +652,22 @@ class MasakhaneNewsPVP(PVP):
     """
     Pattern-verbalizer pair (PVP) for MasakhaneNews.
     """
-
+    #def __init__(self):
     # Set this to the name of the task
     TASK_NAME = "topic-classification"
 
     # Set this to the verbalizer for the given task: a mapping from the task's labels (which can be obtained using
     # the corresponding DataProcessor's get_labels method) to tokens from the language model's vocabulary
+    
     #VERBALIZER = {
     #    "sports": ["Sports"],
     #    "politics": ["Politic"],
     #    "business": ["Business"],
     #    "health": ["Health"],
     #    "entertainment": ["Entertainment"],
-    #    "technology": ["Technology"]
-   # }
-    VERBALIZER = {
-        "sports": ["Sports"],
-        "politics": ["Politic"],
-        "business": ["Business"],
-        "health": ["Health"]
-    }
+        #"technology": ["Technology"]
+    #}
+
 
     def get_parts(self, example: InputExample):
         """
@@ -696,7 +699,7 @@ class MasakhaneNewsPVP(PVP):
             raise ValueError("No pattern implemented for id {}".format(self.pattern_id))
             
     def verbalize(self, label) -> List[str]:
-        return MasakhaneNewsPVP.VERBALIZER[label]
+        return self.VERBALIZER[label]
 
 
 # register the PVP for this task with its name

@@ -229,7 +229,7 @@ def main():
     args.task_name = args.task_name.lower()
     if args.task_name not in PROCESSORS:
         raise ValueError("Task '{}' not found".format(args.task_name))
-    processor = PROCESSORS[args.task_name]()
+    processor = PROCESSORS[args.task_name](args.data_dir)
     args.label_list = processor.get_labels()
 
     train_ex_per_label, test_ex_per_label = None, None
