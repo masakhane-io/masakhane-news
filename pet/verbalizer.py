@@ -83,6 +83,20 @@ YOR_VERBALIZER = {
     "religion":["Religion"]
 }
 
+SNA_VERBALIZER = {
+    "sports": ["Sports"],
+    "politics": ["Politic"],
+    "business": ["Business"],
+    "health": ["Health"]
+}
+
+ORM_VERBALIZER = {
+    "sports": ["Sports"],
+    "politics": ["Politic"],
+    "entertainment": ["Entertainment"],
+    "health": ["Health"]
+}
+
 
 
 VERBALIZER_MAPPING = {
@@ -95,5 +109,7 @@ VERBALIZER_MAPPING = {
     'pcm':PCM_VERBALIZER,
     'run':RUN_VERBALIZER,
     'swa':SWA_VERBALIZER,
-    'yor':YOR_VERBALIZER
+    'yor':YOR_VERBALIZER,
+    'sna':SNA_VERBALIZER,
+    'orm':ORM_VERBALIZER
 }
