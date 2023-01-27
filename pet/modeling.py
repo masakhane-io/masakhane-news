@@ -177,8 +177,6 @@ def train_ipet(ensemble_model_config: WrapperConfig, ensemble_train_config: Trai
     """
     for gen in range(ipet_config.generations):
         gen_output_dir = os.path.join(output_dir, f'g{gen}')
-        #if gen>0:
-        #    break
 
         # Step 1: Train an ensemble of models corresponding to individual patterns
         ipet_data_dir = os.path.join(output_dir, f'g{gen - 1}', 'next-gen-train-data') if gen > 0 else None
@@ -433,7 +431,7 @@ def train_single_model(model: TransformerModelWrapper, train_data: List[InputExa
     model.model.to(device)
 
     if train_data and return_train_set_results:
-        results_dict['train_set_before_training'] = evaluate(model, train_data, eval_config)['scores']['f1-macro']
+        results_dict['train_set_before_training'] = evaluate(model, train_data, eval_config)['scores']['f1']
 
     all_train_data = train_data + ipet_train_data
 
@@ -463,7 +461,7 @@ def train_single_model(model: TransformerModelWrapper, train_data: List[InputExa
         results_dict['average_loss'] = tr_loss
 
     if train_data and return_train_set_results:
-        results_dict['train_set_after_training'] = evaluate(model, train_data, eval_config)['scores']['f1-macro']
+        results_dict['train_set_after_training'] = evaluate(model, train_data, eval_config)['scores']['f1']
 
     return results_dict
 
@@ -484,7 +482,7 @@ def evaluate(model: TransformerModelWrapper, eval_data: List[InputExample], conf
         for example in eval_data:
             example.meta['priming_data'] = priming_data
 
-    metrics = config.metrics if config.metrics else ['f1-macro']
+    metrics = config.metrics if config.metrics else ['f1']
     device = torch.device(config.device if config.device else "cuda" if torch.cuda.is_available() else "cpu")
 
     model.model.to(device)
