@@ -1,4 +1,4 @@
-for lang in amh fra hau ibo lin pcm run swa yor
+for lang in eng amh #fra hau ibo lin pcm run swa yor
 #for lang in amh
 do
     for sample in 5 10 20 50
