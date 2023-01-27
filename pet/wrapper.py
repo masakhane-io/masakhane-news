@@ -164,6 +164,7 @@ class TransformerModelWrapper:
                                                                     self.config.verbalizer_file)
         self.task_helper = TASK_HELPERS[self.config.task_name](self) if self.config.task_name in TASK_HELPERS else None
 
+
     @classmethod
     def from_pretrained(cls, path: str) -> 'TransformerModelWrapper':
         """Load a pretrained wrapper from a given path."""

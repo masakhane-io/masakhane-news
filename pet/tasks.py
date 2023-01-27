@@ -814,7 +814,7 @@ def load_examples(task, data_dir: str, set_type: str, *_, num_examples: int = No
     assert (not set_type == UNLABELED_SET) or (num_examples is not None), \
         "For unlabeled data, 'num_examples_per_label' is not allowed"
 
-    processor = PROCESSORS[task]()
+    processor = PROCESSORS[task](data_dir)
 
     ex_str = f"num_examples={num_examples}" if num_examples is not None \
         else f"num_examples_per_label={num_examples_per_label}"
@@ -857,36 +857,42 @@ class MasakhaneNewsProcessor(DataProcessor):
     Processor for the MasakhaneNews data set.
     """
 
-    # Set this to the name of the task
-    TASK_NAME = "topic-classification"
+    def __init__(self,data_dir=None) -> None:
+        
 
-    # Set this to the name of the file containing the train examples
-    TRAIN_FILE_NAME = "train.tsv"
+        # Set this to the name of the task
+        self.TASK_NAME = "topic-classification"
 
-    # Set this to the name of the file containing the dev examples
-    DEV_FILE_NAME = "dev.tsv"
+        # Set this to the name of the file containing the train examples
+        self.TRAIN_FILE_NAME = "train.tsv"
 
-    # Set this to the name of the file containing the test examples
-    TEST_FILE_NAME = "test.tsv"
+        # Set this to the name of the file containing the dev examples
+        self.DEV_FILE_NAME = "dev.tsv"
 
-    # Set this to the name of the file containing the unlabeled examples
-    UNLABELED_FILE_NAME = "unlabeled.tsv"
+        # Set this to the name of the file containing the test examples
+        self.TEST_FILE_NAME = "test.tsv"
 
-    # Set this to a list of all labels in the train + test data
-    #LABELS = ["1", "2", "3", "4","5", "6"]
-    #LABELS = ["sports", "politics", "business", "health","entertainment", "technology"]
-    LABELS = ["sports", "politics", "business", "health"]
+        # Set this to the name of the file containing the unlabeled examples
+        self.UNLABELED_FILE_NAME = "unlabeled.tsv"
+
+        # Set this to a list of all labels in the train + test data
+        #LABELS = ["1", "2", "3", "4","5", "6"]
+        self.LABELS = None
+        self.DATA_DIR = None
 
 
+        # Set this to the column of the train/test csv files containing the input's text a
+        self.TEXT_A_COLUMN = 1
 
-    # Set this to the column of the train/test csv files containing the input's text a
-    TEXT_A_COLUMN = 1
+        # Set this to the column of the train/test csv files containing the input's text b or to -1 if there is no text b
+        self.TEXT_B_COLUMN = 2
 
-    # Set this to the column of the train/test csv files containing the input's text b or to -1 if there is no text b
-    TEXT_B_COLUMN = 2
+        # Set this to the column of the train/test csv files containing the input's gold label
+        self.LABEL_COLUMN = 0
 
-    # Set this to the column of the train/test csv files containing the input's gold label
-    LABEL_COLUMN = 0
+        if data_dir is not None:
+            self.DATA_DIR = data_dir
+            self.retrieve_labels()
 
     def get_train_examples(self, data_dir: str) -> List[InputExample]:
         """
@@ -894,7 +900,7 @@ class MasakhaneNewsProcessor(DataProcessor):
         :param data_dir: the directory in which the training data can be found
         :return: a list of train examples
         """
-        return self._create_examples(os.path.join(data_dir, MasakhaneNewsProcessor.TRAIN_FILE_NAME), "train")
+        return self._create_examples(os.path.join(data_dir, self.TRAIN_FILE_NAME), "train")
 
     def get_dev_examples(self, data_dir: str) -> List[InputExample]:
         """
@@ -902,7 +908,7 @@ class MasakhaneNewsProcessor(DataProcessor):
         :param data_dir: the directory in which the dev data can be found
         :return: a list of dev examples
         """
-        return self._create_examples(os.path.join(data_dir, MasakhaneNewsProcessor.DEV_FILE_NAME), "dev")
+        return self._create_examples(os.path.join(data_dir, self.DEV_FILE_NAME), "dev")
 
     def get_test_examples(self, data_dir) -> List[InputExample]:
         """
@@ -910,7 +916,7 @@ class MasakhaneNewsProcessor(DataProcessor):
         :param data_dir: the directory in which the test data can be found
         :return: a list of test examples
         """
-        return self._create_examples(os.path.join(data_dir, MasakhaneNewsProcessor.TEST_FILE_NAME), "test")
+        return self._create_examples(os.path.join(data_dir, self.TEST_FILE_NAME), "test")
 
     def get_unlabeled_examples(self, data_dir) -> List[InputExample]:
         """
@@ -918,11 +924,17 @@ class MasakhaneNewsProcessor(DataProcessor):
         :param data_dir: the directory in which the unlabeled data can be found
         :return: a list of unlabeled examples
         """
-        return self._create_examples(os.path.join(data_dir, MasakhaneNewsProcessor.UNLABELED_FILE_NAME), "unlabeled")
+        return self._create_examples(os.path.join(data_dir, self.UNLABELED_FILE_NAME), "unlabeled")
 
     def get_labels(self) -> List[str]:
         """This method returns all possible labels for the task."""
-        return MasakhaneNewsProcessor.LABELS
+        if self.LABELS is None:
+            raise Exception(f'`LABELS` is None. It must be defined.')
+        return self.LABELS
+
+
+    def retrieve_labels(self):
+        _ = self.get_train_examples(self.DATA_DIR)
 
     def _create_examples(self, path, set_type, max_examples=-1, skip_first=0):
         """Creates examples for the training and dev sets."""
@@ -933,17 +945,28 @@ class MasakhaneNewsProcessor(DataProcessor):
             for idx, row in enumerate(reader):
                 print()
                 guid = "%s-%s" % (set_type, idx)
-                label = row[MasakhaneNewsProcessor.LABEL_COLUMN]
-                text_a = row[MasakhaneNewsProcessor.TEXT_A_COLUMN]
-                text_b = row[MasakhaneNewsProcessor.TEXT_B_COLUMN] if MasakhaneNewsProcessor.TEXT_B_COLUMN >= 0 else None
+                label = row[self.LABEL_COLUMN]
+                text_a = row[self.TEXT_A_COLUMN]
+                text_b = row[self.TEXT_B_COLUMN] if self.TEXT_B_COLUMN >= 0 else None
                 example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
                 examples.append(example)
+
+        if set_type=='train' and self.DATA_DIR is not None:
+            all_labels = [ex.label for ex in examples]
+
+            unique_labels = []
+            # Using this method so that the label list order is steady as can be.
+            for a in all_labels:
+                if a not in unique_labels:
+                    unique_labels.append(a)
+            self.LABELS = [u for u in unique_labels]
+
 
         return examples
 
 
 # register the processor for this task with its name
-PROCESSORS[MasakhaneNewsProcessor.TASK_NAME] = MasakhaneNewsProcessor
+PROCESSORS[MasakhaneNewsProcessor().TASK_NAME] = MasakhaneNewsProcessor
 
 # optional: if you have to use verbalizers that correspond to multiple tokens, uncomment the following line
 # TASK_HELPERS[MyTaskDataProcessor.TASK_NAME] = MultiMaskTaskHelper

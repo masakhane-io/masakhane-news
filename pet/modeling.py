@@ -177,6 +177,8 @@ def train_ipet(ensemble_model_config: WrapperConfig, ensemble_train_config: Trai
     """
     for gen in range(ipet_config.generations):
         gen_output_dir = os.path.join(output_dir, f'g{gen}')
+        #if gen>0:
+        #    break
 
         # Step 1: Train an ensemble of models corresponding to individual patterns
         ipet_data_dir = os.path.join(output_dir, f'g{gen - 1}', 'next-gen-train-data') if gen > 0 else None

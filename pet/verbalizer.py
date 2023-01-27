@@ -1,3 +1,4 @@
+
 ENG_VERBALIZER = {
     "sports": ["Sports"],
     "politics": ["Politic"],
@@ -80,4 +81,19 @@ YOR_VERBALIZER = {
     "health": ["Health"],
     "entertainment": ["Entertainment"],
     "religion":["Religion"]
+}
+
+
+
+VERBALIZER_MAPPING = {
+    'eng':ENG_VERBALIZER,
+    'amh':AMH_VERBALIZER,
+    'fra':FRA_VERBALIZER,
+    'hau':HAU_VERBALIZER,
+    'ibo':IBO_VERBALIZER,
+    'lin':LIN_VERBALIZER,
+    'pcm':PCM_VERBALIZER,
+    'run':RUN_VERBALIZER,
+    'swa':SWA_VERBALIZER,
+    'yor':YOR_VERBALIZER
 }
