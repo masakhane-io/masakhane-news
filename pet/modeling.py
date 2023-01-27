@@ -496,7 +496,7 @@ def evaluate(model: TransformerModelWrapper, eval_data: List[InputExample], conf
         if metric == 'acc':
             scores[metric] = simple_accuracy(predictions, results['labels'])
         elif metric == 'f1':
-            scores[metric] = f1_score(results['labels'], predictions)
+            scores[metric] = f1_score(results['labels'], predictions,average='weighted')
         elif metric == 'f1-macro':
             scores[metric] = f1_score(results['labels'], predictions, average='macro')
         elif metric == 'em':
