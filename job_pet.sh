@@ -16,7 +16,7 @@ source /home/mila/c/chris.emezue/scratch/pet-masakhane/env/bin/activate
 
 
 
-python3 -m pdb cli.py --method pet --pattern_ids 0 1 2 3 4 \
+python3 cli.py --method pet --pattern_ids 0 1 2 3 4 \
 --data_dir /home/mila/c/chris.emezue/pet-masakhane-news/data-fsl/$1/$2sample/ \
 --model_type xlm-roberta \
 --model_name_or_path Davlan/afro-xlmr-large \
