@@ -22,9 +22,8 @@ import glob
 import logging
 import os
 import random
-
-import numpy as np
 import pandas as pd
+import numpy as np
 import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, TensorDataset
 from torch.utils.data.distributed import DistributedSampler
@@ -303,8 +302,8 @@ def evaluate(args, model, tokenizer, labels, mode, prefix="", display_res=False)
         "loss": eval_loss,
         "precision": eval_report["weighted avg"]["precision"],
         "recall": eval_report["weighted avg"]["recall"],
-        "f1": eval_report["weighted avg"]["f1-score"],
         "acc": sklearn.metrics.accuracy_score(out_label_ids, preds),
+        "f1": eval_report["weighted avg"]["f1-score"]
     }
 
     if not display_res:
@@ -331,7 +330,7 @@ def load_and_cache_examples(args, tokenizer, labels, mode='train'):
         features = torch.load(cached_features_file)
     else:
         logger.info("Creating features from dataset file at %s", args.data_dir)
-        instances = read_instances_from_file(args.data_dir, mode)
+        instances = read_instances_from_file(args, args.data_dir, mode)
         features = convert_instances_to_features_and_labels(instances, tokenizer, labels, args.max_seq_length)
         if args.local_rank in [-1, 0]:
             logger.info("Saving features into cached file %s", cached_features_file)
@@ -481,6 +480,9 @@ def main():
     parser.add_argument("--local_rank", type=int, default=-1, help="For distributed training: local_rank")
     parser.add_argument("--server_ip", type=str, default="", help="For distant debugging.")
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
+    parser.add_argument("--header", type=int, default=0, help="with header")
+    parser.add_argument('--save_total_limit', type=int, default=1, help="Number of checkpoints to save")
+    
     args = parser.parse_args()
 
     if (
@@ -548,6 +550,7 @@ def main():
         id2label={str(i): label for i, label in enumerate(labels)},
         label2id={label: i for i, label in enumerate(labels)},
         cache_dir=args.cache_dir if args.cache_dir else None,
+        save_total_limit=int(args.save_total_limit),
     )
     tokenizer = tokenizer_class.from_pretrained(
         args.tokenizer_name if args.tokenizer_name else args.model_name_or_path,
@@ -638,31 +641,21 @@ def main():
 
         output_test_predictions_file = os.path.join(args.output_dir, args.output_prediction_file+".txt")
         with open(output_test_predictions_file, "w", encoding='utf-8') as writer:
-            df = pd.read_csv(os.path.join(args.data_dir, "test.tsv"), sep='\t')
-            N = df.shape[0]
+            test_path = os.path.join(args.data_dir, "test.tsv")
+            test_set = pd.read_csv(test_path, delimiter = "\t")
+            
+            texts = test_set['text'].values
+            labels = test_set['category'].values
+            headlines  = test_set['headline'].values
 
-            texts = list(df['headline'].values)
-            for i in range(N):
-                output_line = texts[i] + "\t" + id2label[str(predictions[i])] + "\n"
+            for idx, (text_, headline_, label_) in enumerate(zip(texts, headlines, labels)):
+                if int(args.header) == 1:
+                    text_ = headline_.strip() + ". " + text_.strip()
+                output_line = text_ + "\t" + id2label[str(predictions[idx])] + "\n"
                 writer.write(output_line)
-            '''
-            with open(os.path.join(args.data_dir, "test.tsv"), "r", encoding='utf-8') as f:
-                line_data = f.read()
-            line_data =  line_data.splitlines()
-            for l, line in enumerate(line_data):
-                if l == 0:
-                    continue
-                else:
-                    text_vals = line.strip().split("\t")
-                    if len(text_vals) < 2: text_vals += [7]
-                    text, label = text_vals
-                    output_line = text + "\t" + id2label[str(predictions[l-1])] + "\n"
-                    writer.write(output_line)
-            '''
 
     return results
 
 
 if __name__ == "__main__":
     main()
-

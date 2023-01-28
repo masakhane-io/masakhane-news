@@ -2,7 +2,6 @@ import os
 import torch
 import logging
 import pandas as pd
-
 import numpy as np
 from torch.utils.data import TensorDataset
 
@@ -24,28 +23,20 @@ class InputFeatures(object):
         self.token_type_ids = token_type_ids
         self.label = label
 
-def read_instances_from_file(data_dir, mode, delimiter="\t"):
+def read_instances_from_file(args, data_dir, mode, delimiter="\t"):
     file_path = os.path.join(data_dir, "{}.tsv".format(mode))
     instances = []
 
-    df = pd.read_csv(file_path, sep='\t')
-    N = df.shape[0]
+    line_data  = pd.read_csv(file_path, sep=delimiter)
 
-    for i in range(N):
-        instances.append(Instance(df['headline'].iloc[i], df['category'].iloc[i]))
-    '''
-    with open(file_path, "r", encoding='utf-8') as input_file:
-        line_data = input_file.read()
+    texts = line_data['text'].values
+    labels = line_data['category'].values
+    headlines  = line_data['headline'].values
 
-    line_data = line_data.splitlines()
-    for l, line in enumerate(line_data):
-        if l==0:
-            continue
-        else:
-            text_vals = line.strip().split(delimiter)
-            text, label = ' '.join(text_vals[:-1]), text_vals[-1]
-            instances.append(Instance(text, label))
-    '''
+    for text_, headline_, label_ in zip(texts, headlines, labels):
+        if int(args.header) == 1:
+            text_ = headline_.strip() + ". " + text_.strip()
+        instances.append(Instance(text_, label_))
 
     return instances
 
