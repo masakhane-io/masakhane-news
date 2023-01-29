@@ -2,3 +2,4 @@ entertainment
 health
 politics
 sports
+technology
