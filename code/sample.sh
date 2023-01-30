@@ -13,7 +13,7 @@ module load python/3.9 cuda/10.2/cudnn/7.6
 source /home/mila/b/bonaventure.dossou/afrispeech/bin/activate
 pip install -r requirements.txt
 export PYTHONPATH=$PYTHONPATH:~/masakhane-news
-export MAX_LENGTH=164
+export MAX_LENGTH=256
 export BATCH_SIZE=64
 export NUM_EPOCHS=10
 export SAVE_STEPS=1500
@@ -21,14 +21,26 @@ export SAVE_STEPS=1500
 for model in xlm-roberta-base xlm-roberta-large google/rembert microsoft/deberta-v3-base
 do
 	export BERT_MODEL=${model}
-	for lang in amh eng fra hau ibo lin pcm run swa yor
+	if [ ${model} == xlm-roberta-base ]
+	then
+		declare -a langs=(eng fra hau ibo lin pcm run swa yor orm sna)
+	else
+		declare -a langs=(amh eng fra hau ibo lin pcm run swa yor orm sna)
+	fi
+	for lang in "${langs[@]}"
 	do
 		export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${lang}_${model}
 		export DATA_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/data/${lang}
 		export LABELS_FILE=${DATA_DIR}/labels.txt
 		export LANG=${lang}
 		export OUTPUT_DIR=/home/mila/b/bonaventure.dossou/masakhane-news/results/${lang}_${model}
-		for seed in 1 2 3 4 5
+		if [[ ${lang} == eng && ${model} == xlm-roberta-base ]]
+		then
+			declare -a seeds=(4 5)
+		else
+			declare -a seeds=(1 2 3 4 5)
+		fi
+		for seed in "${seeds[@]}"
 		do
 			for header_style in 0 1
 			do
