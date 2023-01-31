@@ -32,7 +32,7 @@ def read_instances_from_file(data_dir, mode, delimiter="\t"):
     N = df.shape[0]
 
     for i in range(N):
-        instances.append(Instance(df['headline'].iloc[i], df['category'].iloc[i]))
+        instances.append(Instance(df['headline'].iloc[i] +' '+df['text'].iloc[i], df['category'].iloc[i]))
     '''
     with open(file_path, "r", encoding='utf-8') as input_file:
         line_data = input_file.read()
