@@ -1,0 +1,7 @@
+business
+entertainment
+health
+politics
+religion
+sports
+technology
