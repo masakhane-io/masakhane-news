@@ -8,7 +8,6 @@ from torch.utils.data import TensorDataset
 
 logger = logging.getLogger(__name__)
 
-
 class Instance:
 
     def __init__(self, text, label):
@@ -92,4 +91,4 @@ def get_labels(path):
             labels = f.read().splitlines()
         return labels
     else:
-        return ['sports', 'health', 'technology', 'business', 'politics', 'entertainment', 'religion', 'uncategorized']
+        return  ['sports', 'health', 'technology', 'business', 'politics', 'entertainment', 'religion', 'uncategorized']
