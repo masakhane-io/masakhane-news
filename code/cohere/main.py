@@ -36,7 +36,6 @@ if __name__ == '__main__':
             )
             cumulative_classifications = []
             for input_samples_idx in tqdm(range(0, len(inputs), 96)):
-                # for input_samples_idx in range(0, 1):
                 classifications = get_classifications(
                     co, examples, inputs[input_samples_idx:input_samples_idx+96]
                 ).classifications
