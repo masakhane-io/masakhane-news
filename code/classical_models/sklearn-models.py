@@ -41,7 +41,7 @@ def main():
 
         train_data = pd.read_csv(f'{folder_name}/{language}/train.tsv',sep='\t')
         dev_data = pd.read_csv(f'{folder_name}/{language}/dev.tsv',sep='\t')
-        test_data = pd.read_csv(f'{folder_name}/{language}/dev.tsv',sep='\t')
+        test_data = pd.read_csv(f'{folder_name}/{language}/test.tsv',sep='\t')
 
         print(f' Training set size : {train_data.size}   Dev set size: {dev_data.size}')
 
