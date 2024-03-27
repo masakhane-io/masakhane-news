@@ -25,7 +25,7 @@ There are 16 languages available :
     - isiXhosa (xho)
     - Yorùbá (yor)
 
-### Corpus
+### Monolingual Corpus
 We obtained the data mostly from BBC news, and a few other websites like VOA (Lingala, chiShona), Gambuuze (Luganda), Kwayedza (chiShona), Isolezwe (isiXhosa). The corpus can be obtained from [Google Drive](https://drive.google.com/drive/folders/1dA5MGvsjvYFuJKl37pwhPFnVEIB6O0hU?usp=sharing)
 
 ### Data Splits
